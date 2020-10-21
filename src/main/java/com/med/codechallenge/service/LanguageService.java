@@ -26,6 +26,7 @@ public class LanguageService {
     JSONArray jsonArray;
 
     public List<Language> getTrendyLanguages() throws IOException, JSONException {
+        // Storing Languages in Set to avoid redundancy
         Set<String> allLanguages = new HashSet<>();
 
         // Getting Last Month Date and Formating it to yyyy-MM-dd Format
@@ -37,6 +38,8 @@ public class LanguageService {
         dt = c.getTime();
         String lastMonth = formatter.format(dt);
 
+
+        // Getting language names of top trendy repositories on Github
         JSONObject json = readJsonFromUrl("https://api.github.com/search/repositories?q=created:%3E"+lastMonth+"&sort=stars&order=desc&per_page=100");
         jsonArray = (JSONArray) json.getJSONArray("items");
         for (int i=0; i < jsonArray.length(); i++) {
@@ -45,6 +48,7 @@ public class LanguageService {
                 allLanguages.add(language);
         }
 
+        // Attach every repo to its programming language
         for (Iterator<String> it = allLanguages.iterator(); it.hasNext(); ) {
             String f = it.next();
             Language l = new Language();
@@ -60,7 +64,7 @@ public class LanguageService {
             l.setNumberRepos(num);
             mylanguages.add(l);
         }
-
+        // Sorting our objects to have languages with highest repositories numbers at first
         Collections.sort(mylanguages);
 
         return mylanguages;

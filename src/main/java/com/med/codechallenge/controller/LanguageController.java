@@ -14,10 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping
-public class RepositoryController {
+public class LanguageController {
     private LanguageService languageService;
 
-    public RepositoryController(LanguageService languageService) {
+    public LanguageController(LanguageService languageService) {
         this.languageService = languageService;
 
     }
